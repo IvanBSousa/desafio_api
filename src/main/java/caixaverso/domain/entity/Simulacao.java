@@ -7,7 +7,7 @@ public class Simulacao {
 
     private Long id;
 
-    private Long clientId;
+    private Long clienteId;
 
     private String produto;
 
@@ -27,12 +27,12 @@ public class Simulacao {
         this.id = id;
     }
 
-    public Long getClientId() {
-        return clientId;
+    public Long getClienteId() {
+        return clienteId;
     }
 
-    public void setClientId(Long clientId) {
-        this.clientId = clientId;
+    public void setClienteId(Long clientId) {
+        this.clienteId = clientId;
     }
 
     public String getProduto() {
@@ -75,9 +75,10 @@ public class Simulacao {
         this.dataSimulacao = dataSimulacao;
     }
 
-    public Simulacao(Long id, Long clientId, String produto, BigDecimal valorInvestido, BigDecimal valorFinal, int prazoMeses, Instant dataSimulacao) {
+    public Simulacao(Long id, Long clienteId, String produto, BigDecimal valorInvestido, BigDecimal valorFinal,
+                     int prazoMeses, Instant dataSimulacao) {
         this.id = id;
-        this.clientId = clientId;
+        this.clienteId = clienteId;
         this.produto = produto;
         this.valorInvestido = valorInvestido;
         this.valorFinal = valorFinal;

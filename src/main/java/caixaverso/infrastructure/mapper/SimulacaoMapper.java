@@ -1,14 +1,28 @@
-package br.caixa.application.mapper;
+package caixaverso.infrastructure.mapper;
 
-import br.caixa.application.dto.SimulacaoDTO;
-import br.caixa.domain.entity.Simulacao;
+import caixaverso.application.dto.SimulacaoHistoricoDTO;
+import caixaverso.domain.entity.Simulacao;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class SimulacaoMapper {
 
-    public Simulacao toEntity(SimulacaoDTO dto) {
+    public static SimulacaoHistoricoDTO toHistoricoDTO(Simulacao entity) {
+        if (entity == null) return null;
+
+        return new SimulacaoHistoricoDTO(
+                entity.getId(),
+                entity.getClienteId(),
+                entity.getProduto(),
+                entity.getValorInvestido(),
+                entity.getValorFinal(),
+                entity.getPrazoMeses(),
+                entity.getDataSimulacao()
+        );
+    }
+
+    public static toEntity(SimulacaoHistoricoDTO dto) {
         if (dto == null) return null;
 
         Simulacao s = new Simulacao();
@@ -20,19 +34,5 @@ public class SimulacaoMapper {
         s.setPrazoMeses(dto.prazoMeses());
         s.setDataSimulacao(dto.dataSimulacao());
         return s;
-    }
-
-    public SimulacaoDTO toDTO(Simulacao entity) {
-        if (entity == null) return null;
-
-        return new SimulacaoDTO(
-                entity.getId(),
-                entity.getClienteId(),
-                entity.getProduto(),
-                entity.getValorInvestido(),
-                entity.getValorFinal(),
-                entity.getPrazoMeses(),
-                entity.getDataSimulacao()
-        );
     }
 }

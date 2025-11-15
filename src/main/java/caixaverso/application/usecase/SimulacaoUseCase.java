@@ -1,9 +1,14 @@
 package caixaverso.application.usecase;
 
+import caixaverso.application.dto.SimulacaoResponseDTO;
+import caixaverso.domain.entity.Simulacao;
+import caixaverso.infrastructure.mapper.SimulacaoMapper;
+import caixaverso.infrastructure.mapper.SimulacaoResponseMapper;
 import caixaverso.infrastructure.persistence.entity.ProdutoEntity;
 import caixaverso.infrastructure.persistence.entity.SimulacaoEntity;
 import caixaverso.infrastructure.persistence.repository.ProdutoRepository;
 import caixaverso.infrastructure.persistence.repository.SimulacaoRepository;
+import caixaverso.infrastructure.persistence.repository.SimulacaoRepositoryImpl;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
@@ -19,7 +24,21 @@ public class SimulacaoUseCase {
     ProdutoRepository produtoRepository;
 
     @Inject
-    SimulacaoRepository simulacaoRepository;
+    SimulacaoRepositoryImpl simulacaoRepository;
+
+    @Inject
+    SimulacaoResponseMapper mapper;
+
+    public List<SimulacaoResponseDTO> listarTodos(int page, int size) {
+        List<Simulacao> lista = simulacaoRepository.listarPaginado(page, size);
+        return lista.stream()
+                .map(simulacao -> mapper.toResponse(
+                        SimulacaoMapper.toHistoricoDTO(simulacao),
+                        SimulacaoMapper.toHistoricoDTO(simulacao),
+                        simulacao.getDataSimulacao()
+                ))
+                .toList();
+    }
 
     public SimulacaoEntity simular(Integer idProduto, BigDecimal valor, int prazoMeses, Long clienteId) {
 
@@ -43,7 +62,7 @@ public class SimulacaoUseCase {
         entity.setClienteId(clienteId);
         entity.setSucesso(true);
 
-        simulacaoRepository.save(entity);
+        simulacaoRepository.salvar(entity);
         return entity;
     }
 

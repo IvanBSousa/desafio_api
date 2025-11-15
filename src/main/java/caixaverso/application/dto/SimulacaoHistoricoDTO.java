@@ -1,6 +1,7 @@
 package caixaverso.application.dto;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.OffsetDateTime;
 
 public record SimulacaoHistoricoDTO(
@@ -10,4 +11,4 @@ public record SimulacaoHistoricoDTO(
         BigDecimal valorInvestido,
         BigDecimal valorFinal,
         Integer prazoMeses,
-        OffsetDateTime dataSimulacao) {}
+        Instant dataSimulacao) {}
