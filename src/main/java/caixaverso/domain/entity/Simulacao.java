@@ -5,9 +5,9 @@ import java.time.Instant;
 
 public class Simulacao {
 
-    private int id;
+    private Long id;
 
-    private int clientId;
+    private Long clientId;
 
     private String produto;
 
@@ -18,4 +18,73 @@ public class Simulacao {
     private int prazoMeses;
 
     private Instant dataSimulacao;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
+    }
+
+    public String getProduto() {
+        return produto;
+    }
+
+    public void setProduto(String produto) {
+        this.produto = produto;
+    }
+
+    public BigDecimal getValorInvestido() {
+        return valorInvestido;
+    }
+
+    public void setValorInvestido(BigDecimal valorInvestido) {
+        this.valorInvestido = valorInvestido;
+    }
+
+    public BigDecimal getValorFinal() {
+        return valorFinal;
+    }
+
+    public void setValorFinal(BigDecimal valorFinal) {
+        this.valorFinal = valorFinal;
+    }
+
+    public int getPrazoMeses() {
+        return prazoMeses;
+    }
+
+    public void setPrazoMeses(int prazoMeses) {
+        this.prazoMeses = prazoMeses;
+    }
+
+    public Instant getDataSimulacao() {
+        return dataSimulacao;
+    }
+
+    public void setDataSimulacao(Instant dataSimulacao) {
+        this.dataSimulacao = dataSimulacao;
+    }
+
+    public Simulacao(Long id, Long clientId, String produto, BigDecimal valorInvestido, BigDecimal valorFinal, int prazoMeses, Instant dataSimulacao) {
+        this.id = id;
+        this.clientId = clientId;
+        this.produto = produto;
+        this.valorInvestido = valorInvestido;
+        this.valorFinal = valorFinal;
+        this.prazoMeses = prazoMeses;
+        this.dataSimulacao = dataSimulacao;
+    }
+
+    public Simulacao() {
+    }
 }
