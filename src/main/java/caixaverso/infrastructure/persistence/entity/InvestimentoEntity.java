@@ -1,30 +1,15 @@
 package caixaverso.infrastructure.persistence.entity;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import jakarta.persistence.*;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "historico_investimentos")
-public class HistoricoInvestimentoEntity extends PanacheEntityBase {
+public class InvestimentoEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "cliente_id")
     private Long clienteId;
-
     private String tipo;
-
-    private BigDecimal valorInvestido;
-
+    private BigDecimal valor;
     private BigDecimal rentabilidade;
-
-    private String produto;
-
     private LocalDate data;
 
     public Long getId() {
@@ -51,17 +36,13 @@ public class HistoricoInvestimentoEntity extends PanacheEntityBase {
         this.tipo = tipo;
     }
 
-    public BigDecimal getValorInvestido() {
-        return valorInvestido;
+    public BigDecimal getValor() {
+        return valor;
     }
 
-    public void setValorInvestido(BigDecimal valorInvestido) {
-        this.valorInvestido = valorInvestido;
+    public void setValor(BigDecimal valor) {
+        this.valor = valor;
     }
-
-    public String getProduto() { return produto; }
-
-    public void setProduto(String produto) { this.produto = produto; }
 
     public BigDecimal getRentabilidade() {
         return rentabilidade;
@@ -79,15 +60,15 @@ public class HistoricoInvestimentoEntity extends PanacheEntityBase {
         this.data = data;
     }
 
-    public HistoricoInvestimentoEntity(Long id, Long clienteId, String tipo, BigDecimal valor, BigDecimal rentabilidade, LocalDate data) {
+    public InvestimentoEntity(Long id, Long clienteId, String tipo, BigDecimal valor, BigDecimal rentabilidade, LocalDate data) {
         this.id = id;
         this.clienteId = clienteId;
         this.tipo = tipo;
-        this.valorInvestido = valor;
+        this.valor = valor;
         this.rentabilidade = rentabilidade;
         this.data = data;
     }
 
-    public HistoricoInvestimentoEntity() {
+    public InvestimentoEntity() {
     }
 }

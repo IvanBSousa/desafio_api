@@ -18,6 +18,8 @@ public class TelemetriaEntity extends PanacheEntityBase {
     @Column(name = "tempo_ms")
     private Integer tempoMs;
 
+    private Boolean sucesso;
+
     @Column(name = "data_exec")
     private OffsetDateTime dataExec;
 
@@ -44,6 +46,10 @@ public class TelemetriaEntity extends PanacheEntityBase {
     public void setTempoMs(Integer tempoMs) {
         this.tempoMs = tempoMs;
     }
+
+    public Boolean getSucesso() { return sucesso; };
+
+    public void setSucesso(Boolean sucesso) { this.sucesso = sucesso; };
 
     public OffsetDateTime getDataExec() {
         return dataExec;

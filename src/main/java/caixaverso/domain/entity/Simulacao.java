@@ -15,6 +15,8 @@ public class Simulacao {
 
     private BigDecimal valorFinal;
 
+    private BigDecimal rentabilidadeEfetiva;
+
     private int prazoMeses;
 
     private Instant dataSimulacao;
@@ -59,6 +61,11 @@ public class Simulacao {
         this.valorFinal = valorFinal;
     }
 
+    public BigDecimal getRentabilidadeEfetiva() { return rentabilidadeEfetiva; }
+
+    public void setRentabilidadeEfetiva(BigDecimal rentabilidadeEfetiva) {
+        this.rentabilidadeEfetiva = rentabilidadeEfetiva; }
+
     public int getPrazoMeses() {
         return prazoMeses;
     }
@@ -76,12 +83,13 @@ public class Simulacao {
     }
 
     public Simulacao(Long id, Long clienteId, String produto, BigDecimal valorInvestido, BigDecimal valorFinal,
-                     int prazoMeses, Instant dataSimulacao) {
+                        BigDecimal rentabilidadeEfetiva, int prazoMeses, Instant dataSimulacao) {
         this.id = id;
         this.clienteId = clienteId;
         this.produto = produto;
         this.valorInvestido = valorInvestido;
         this.valorFinal = valorFinal;
+        this.rentabilidadeEfetiva = rentabilidadeEfetiva;
         this.prazoMeses = prazoMeses;
         this.dataSimulacao = dataSimulacao;
     }

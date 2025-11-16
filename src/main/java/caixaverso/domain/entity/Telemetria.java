@@ -12,6 +12,8 @@ public class Telemetria{
 
     private Integer tempoMs;
 
+    private Boolean sucesso;
+
     private OffsetDateTime dataExec;
 
     public Long getId() {
@@ -37,6 +39,10 @@ public class Telemetria{
     public void setTempoMs(Integer tempoMs) {
         this.tempoMs = tempoMs;
     }
+
+    public Boolean getSucesso() { return sucesso; }
+
+    public void setSucesso(Boolean sucesso) { this.sucesso = sucesso; }
 
     public OffsetDateTime getDataExec() {
         return dataExec;

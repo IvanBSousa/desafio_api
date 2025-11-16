@@ -5,6 +5,7 @@ import caixaverso.infrastructure.persistence.repository.HistoricoInvestimentoRep
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class HistoricoInvestimentoUseCase {
     @Inject
     HistoricoInvestimentoRepository repository;
 
-    public HistoricoInvestimentoEntity registrarInvestimento(Long clienteId, String produto, double valor) {
+    public HistoricoInvestimentoEntity registrarInvestimento(Long clienteId, String produto, BigDecimal valor) {
         HistoricoInvestimentoEntity h = new HistoricoInvestimentoEntity();
         h.setClienteId(clienteId);
         h.setValorInvestido(valor);

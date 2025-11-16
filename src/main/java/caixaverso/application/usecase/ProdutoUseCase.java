@@ -1,7 +1,9 @@
 package caixaverso.application.usecase;
 
+import caixaverso.application.dto.ProdutoDTO;
+import caixaverso.infrastructure.mapper.ProdutoMapper;
 import caixaverso.infrastructure.persistence.entity.ProdutoEntity;
-import caixaverso.infrastructure.persistence.repository.ProdutoRepository;
+import caixaverso.infrastructure.persistence.repository.ProdutoRepositoryImpl;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
@@ -12,7 +14,10 @@ import java.util.List;
 public class ProdutoUseCase {
 
     @Inject
-    ProdutoRepository repository;
+    ProdutoRepositoryImpl repository;
+
+    @Inject
+    ProdutoMapper mapper;
 
     public List<ProdutoEntity> listar() {
         return repository.listAllProdutos();
@@ -48,5 +53,12 @@ public class ProdutoUseCase {
 
     public List<ProdutoEntity> sugerirProdutos(BigDecimal valor, int prazoMeses, String tipoProduto) {
         return repository.findValidByParams(valor, prazoMeses, tipoProduto);
+    }
+
+    public List<ProdutoDTO> buscarProdutosPorPerfil(String perfil) {
+        return repository.buscarPorPerfil(perfil)
+                .stream()
+                .map(mapper::toDTO)
+                .toList();
     }
 }

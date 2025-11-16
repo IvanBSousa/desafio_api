@@ -11,9 +11,11 @@ public class HistoricoInvestimento {
 
     private String tipo;
 
-    private BigDecimal valor;
+    private BigDecimal valorInvestido;
 
     private BigDecimal rentabilidade;
+
+    private String produto;
 
     private LocalDate data;
 
@@ -41,12 +43,12 @@ public class HistoricoInvestimento {
         this.tipo = tipo;
     }
 
-    public BigDecimal getValor() {
-        return valor;
+    public BigDecimal getValorInvestido() {
+        return valorInvestido;
     }
 
-    public void setValor(BigDecimal valor) {
-        this.valor = valor;
+    public void setValorInvestido(BigDecimal valorInvestido) {
+        this.valorInvestido = valorInvestido;
     }
 
     public BigDecimal getRentabilidade() {
@@ -57,6 +59,10 @@ public class HistoricoInvestimento {
         this.rentabilidade = rentabilidade;
     }
 
+    public String getProduto() { return produto; }
+
+    public void setProduto(String produto) { this.produto = produto; }
+
     public LocalDate getData() {
         return data;
     }
@@ -65,11 +71,11 @@ public class HistoricoInvestimento {
         this.data = data;
     }
 
-    public HistoricoInvestimento(Long id, Long clienteId, String tipo, BigDecimal valor, BigDecimal rentabilidade, LocalDate data) {
+    public HistoricoInvestimento(Long id, Long clienteId, String tipo, BigDecimal valorInvestido, BigDecimal rentabilidade, LocalDate data) {
         this.id = id;
         this.clienteId = clienteId;
         this.tipo = tipo;
-        this.valor = valor;
+        this.valorInvestido = valorInvestido;
         this.rentabilidade = rentabilidade;
         this.data = data;
     }

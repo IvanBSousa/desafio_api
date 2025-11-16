@@ -1,5 +1,6 @@
 package caixaverso.infrastructure.persistence.repository;
 
+import caixaverso.domain.entity.Produto;
 import caixaverso.infrastructure.persistence.entity.ProdutoEntity;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @ApplicationScoped
-public class ProdutoRepository implements PanacheRepositoryBase<ProdutoEntity, Integer> {
+public class ProdutoRepositoryImpl implements PanacheRepositoryBase<ProdutoEntity, Integer> {
 
     public List<ProdutoEntity> listAllProdutos() {
         return listAll();
@@ -62,4 +63,25 @@ public class ProdutoRepository implements PanacheRepositoryBase<ProdutoEntity, I
         persist(produto);
         return produto;
     }
+
+
+    public List<ProdutoEntity> buscarPorRisco(String risco) {
+        return getEntityManager().createQuery("""
+            SELECT p FROM ProdutoEntity p
+            WHERE p.risco = :risco
+        """, ProdutoEntity.class)
+                .setParameter("risco", risco)
+                .getResultList();
+    }
+
+
+    public List<Produto> buscarPorPerfil(String perfilRisco) {
+        return getEntityManager().createQuery("""
+            SELECT p FROM ProdutoEntity p
+            WHERE p.risco = :risco
+        """, Produto.class)
+                .setParameter("risco", perfilRisco)
+                .getResultList();
+    }
+
 }

@@ -14,7 +14,7 @@ public class TelemetriaUseCase {
     @Inject
     TelemetriaRepository repository;
 
-    public TelemetriaEntity registrar(String servico, long tempoMs, boolean sucesso) {
+    public TelemetriaEntity registrar(String servico, Integer tempoMs, boolean sucesso) {
         TelemetriaEntity t = new TelemetriaEntity();
         t.setServico(servico);
         t.setTempoMs(tempoMs);

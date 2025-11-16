@@ -22,7 +22,7 @@ public class SimulacaoMapper {
         );
     }
 
-    public static toEntity(SimulacaoHistoricoDTO dto) {
+    public Simulacao toEntity(SimulacaoHistoricoDTO dto) {
         if (dto == null) return null;
 
         Simulacao s = new Simulacao();

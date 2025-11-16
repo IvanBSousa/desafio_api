@@ -1,13 +1,14 @@
 package caixaverso.application.usecase;
 
+import caixaverso.application.dto.SimulacaoAgrupadaDTO;
+import caixaverso.application.dto.SimulacaoHistoricoDTO;
+import caixaverso.application.dto.SimulacaoRequestDTO;
 import caixaverso.application.dto.SimulacaoResponseDTO;
 import caixaverso.domain.entity.Simulacao;
-import caixaverso.infrastructure.mapper.SimulacaoMapper;
-import caixaverso.infrastructure.mapper.SimulacaoResponseMapper;
+import caixaverso.infrastructure.mapper.SimulacaoHistoricoMapper;
 import caixaverso.infrastructure.persistence.entity.ProdutoEntity;
 import caixaverso.infrastructure.persistence.entity.SimulacaoEntity;
-import caixaverso.infrastructure.persistence.repository.ProdutoRepository;
-import caixaverso.infrastructure.persistence.repository.SimulacaoRepository;
+import caixaverso.infrastructure.persistence.repository.ProdutoRepositoryImpl;
 import caixaverso.infrastructure.persistence.repository.SimulacaoRepositoryImpl;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -21,28 +22,25 @@ import java.util.List;
 public class SimulacaoUseCase {
 
     @Inject
-    ProdutoRepository produtoRepository;
+    ProdutoRepositoryImpl produtoRepositoryImpl;
 
     @Inject
     SimulacaoRepositoryImpl simulacaoRepository;
 
     @Inject
-    SimulacaoResponseMapper mapper;
+    SimulacaoHistoricoMapper historicoMapper;
 
-    public List<SimulacaoResponseDTO> listarTodos(int page, int size) {
+    public List<SimulacaoHistoricoDTO> listarTodos(int page, int size) {
         List<Simulacao> lista = simulacaoRepository.listarPaginado(page, size);
+
         return lista.stream()
-                .map(simulacao -> mapper.toResponse(
-                        SimulacaoMapper.toHistoricoDTO(simulacao),
-                        SimulacaoMapper.toHistoricoDTO(simulacao),
-                        simulacao.getDataSimulacao()
-                ))
+                .map(historicoMapper::toDTO)
                 .toList();
     }
 
-    public SimulacaoEntity simular(Integer idProduto, BigDecimal valor, int prazoMeses, Long clienteId) {
+    public SimulacaoEntity simularInterno(Integer idProduto, BigDecimal valor, int prazoMeses, Long clienteId) {
 
-        ProdutoEntity produto = produtoRepository.findByIdOptional(idProduto)
+        ProdutoEntity produto = produtoRepositoryImpl.findByIdOptional(idProduto)
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
         validarLimites(produto, valor, prazoMeses);
@@ -52,8 +50,8 @@ public class SimulacaoUseCase {
 
         SimulacaoEntity entity = new SimulacaoEntity();
         entity.setProdutoId(produto.getId());
-        entity.setProdutoNome(produto.getNome());
-        entity.setValorSolicitado(valor);
+        entity.setProduto(produto.getNome());
+        entity.setValorInvestido(valor);
         entity.setValorFinal(valorFinal);
         entity.setPrazoMeses(prazoMeses);
         entity.setTaxaJurosAnual(produto.getRentabilidade());
@@ -65,6 +63,24 @@ public class SimulacaoUseCase {
         simulacaoRepository.salvar(entity);
         return entity;
     }
+
+    public SimulacaoResponseDTO simular(SimulacaoRequestDTO request) {
+
+        SimulacaoEntity entity = simularInterno(
+                request.produto(),
+                request.valorInvestido(),
+                request.prazoMeses(),
+                request.clienteId()
+        );
+
+        return responseMapper.toResponse(
+                entity.getProduto(),
+                entity.getValorFinal(),
+                entity.getPrazoMeses(),
+                entity.getDataSimulacao()
+        );
+    }
+
 
     private void validarLimites(ProdutoEntity p, BigDecimal valor, int prazo) {
         if (p.getMinValor().compareTo(valor) > 0)
@@ -90,10 +106,7 @@ public class SimulacaoUseCase {
         return BigDecimal.valueOf(vf).setScale(2, RoundingMode.HALF_UP);
     }
 
-    public List<Object[]> agregacaoPorProdutoDia() {
-        return simulacaoRepository.aggregateByProductAndDay(
-                java.time.LocalDate.now().minusDays(30),
-                java.time.LocalDate.now()
-        );
+    public List<SimulacaoAgrupadaDTO> agregacaoPorProdutoDia() {
+        return simulacaoRepository.agruparPorProdutoDia();
     }
 }

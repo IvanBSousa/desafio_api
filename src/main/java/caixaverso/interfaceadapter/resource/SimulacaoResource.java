@@ -19,7 +19,7 @@ public class SimulacaoResource {
     @POST
     @Path("/simular-investimento")
     public Response simular(SimulacaoRequestDTO request) {
-        SimulacaoResponseDTO response = simulacaoUseCase.simular(request);
+        SimulacaoResponseDTO response = simulacaoUseCase.simularInterno(request);
         return Response.ok(response).build();
     }
 

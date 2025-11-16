@@ -4,6 +4,7 @@ import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.OffsetDateTime;
 
 @Entity
@@ -16,30 +17,22 @@ public class SimulacaoEntity extends PanacheEntityBase {
 
     private Long clienteId;
 
-    @Column(name = "produto_id")
-    private Integer produtoId;
-
     @Column(name = "produto_nome")
-    private String produtoNome;
+    private String produto;
 
-    @Column(name = "valor_solicitado", precision = 18, scale = 2)
-    private BigDecimal valorSolicitado;
+    @Column(name = "valor_investido", precision = 18, scale = 2)
+    private BigDecimal valorInvestido;
 
     @Column(name = "valor_final", precision = 18, scale = 2)
     private BigDecimal valorFinal;
 
+    @Column(name = "rentabilidade_efetiva", precision = 5, scale = 2)
+    private BigDecimal rentabilidadeEfetiva;
+
     @Column(name = "prazo_meses")
     private Integer prazoMeses;
 
-    @Column(name = "taxa_juros_anual", precision = 10, scale = 6)
-    private BigDecimal taxaJurosAnual;
-
-    @Column(name = "taxa_mensal_efetiva", precision = 10, scale = 6)
-    private BigDecimal taxaMensalEfetiva;
-
-    private OffsetDateTime dataSimulacao;
-
-    private boolean sucesso;
+    private Instant dataSimulacao;
 
     public Long getId() {
         return id;
@@ -57,28 +50,20 @@ public class SimulacaoEntity extends PanacheEntityBase {
         this.clienteId = clienteId;
     }
 
-    public Integer getProdutoId() {
-        return produtoId;
+    public String getProduto() {
+        return produto;
     }
 
-    public void setProdutoId(Integer produtoId) {
-        this.produtoId = produtoId;
+    public void setProduto(String produto) {
+        this.produto = produto;
     }
 
-    public String getProdutoNome() {
-        return produtoNome;
+    public BigDecimal getValorInvestido() {
+        return valorInvestido;
     }
 
-    public void setProdutoNome(String produtoNome) {
-        this.produtoNome = produtoNome;
-    }
-
-    public BigDecimal getValorSolicitado() {
-        return valorSolicitado;
-    }
-
-    public void setValorSolicitado(BigDecimal valorSolicitado) {
-        this.valorSolicitado = valorSolicitado;
+    public void setValorInvestido(BigDecimal valorInvestido) {
+        this.valorInvestido = valorInvestido;
     }
 
     public BigDecimal getValorFinal() {
@@ -89,6 +74,11 @@ public class SimulacaoEntity extends PanacheEntityBase {
         this.valorFinal = valorFinal;
     }
 
+    public BigDecimal getRentabilidadeEfetiva() { return rentabilidadeEfetiva; }
+
+    public void setRentabilidadeEfetiva(BigDecimal rentabilidadeEfetiva) {
+        this.rentabilidadeEfetiva = rentabilidadeEfetiva; }
+
     public Integer getPrazoMeses() {
         return prazoMeses;
     }
@@ -97,52 +87,25 @@ public class SimulacaoEntity extends PanacheEntityBase {
         this.prazoMeses = prazoMeses;
     }
 
-    public BigDecimal getTaxaJurosAnual() {
-        return taxaJurosAnual;
-    }
-
-    public void setTaxaJurosAnual(BigDecimal taxaJurosAnual) {
-        this.taxaJurosAnual = taxaJurosAnual;
-    }
-
-    public BigDecimal getTaxaMensalEfetiva() {
-        return taxaMensalEfetiva;
-    }
-
-    public void setTaxaMensalEfetiva(BigDecimal taxaMensalEfetiva) {
-        this.taxaMensalEfetiva = taxaMensalEfetiva;
-    }
-
-    public OffsetDateTime getDataSimulacao() {
+    public Instant getDataSimulacao() {
         return dataSimulacao;
     }
 
-    public void setDataSimulacao(OffsetDateTime dataSimulacao) {
+    public void setDataSimulacao(Instant dataSimulacao) {
         this.dataSimulacao = dataSimulacao;
     }
 
-    public boolean isSucesso() {
-        return sucesso;
-    }
-
-    public void setSucesso(boolean sucesso) {
-        this.sucesso = sucesso;
-    }
-
-    public SimulacaoEntity(Long id, Long clienteId, Integer produtoId, String produtoNome, BigDecimal valorSolicitado,
-                           BigDecimal valorFinal, Integer prazoMeses, BigDecimal taxaJurosAnual,
-                           BigDecimal taxaMensalEfetiva, OffsetDateTime dataSimulacao, boolean sucesso) {
+    public SimulacaoEntity(Long id, Long clienteId, String produto, BigDecimal valorInvestido,
+                           BigDecimal valorFinal, BigDecimal rentabilidadeEfetiva, Integer prazoMeses,
+                           Instant dataSimulacao) {
         this.id = id;
         this.clienteId = clienteId;
-        this.produtoId = produtoId;
-        this.produtoNome = produtoNome;
-        this.valorSolicitado = valorSolicitado;
+        this.produto = produto;
+        this.valorInvestido = valorInvestido;
         this.valorFinal = valorFinal;
+        this.rentabilidadeEfetiva = rentabilidadeEfetiva;
         this.prazoMeses = prazoMeses;
-        this.taxaJurosAnual = taxaJurosAnual;
-        this.taxaMensalEfetiva = taxaMensalEfetiva;
         this.dataSimulacao = dataSimulacao;
-        this.sucesso = sucesso;
     }
 
     public SimulacaoEntity() {
