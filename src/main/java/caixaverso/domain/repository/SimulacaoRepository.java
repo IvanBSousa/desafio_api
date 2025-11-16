@@ -1,16 +1,15 @@
 package caixaverso.domain.repository;
 
-import caixaverso.application.dto.SimulacaoAgrupadaDTO;
-import caixaverso.domain.entity.Simulacao;
+import caixaverso.application.dto.SimulacaoAgrupadaResponseDTO;
 import caixaverso.infrastructure.persistence.entity.SimulacaoEntity;
 
 import java.util.List;
 
 public interface SimulacaoRepository {
 
-    SimulacaoEntity salvar(SimulacaoEntity simulacao);
+    void salvar(SimulacaoEntity simulacao);
 
-    List<Simulacao> listarPaginado(int page, int size);
+    List<SimulacaoEntity> listarPaginado(int page, int size);
 
-    List<SimulacaoAgrupadaDTO> agruparPorProdutoDia();
+    List<SimulacaoAgrupadaResponseDTO> agruparPorProdutoDia();
 }

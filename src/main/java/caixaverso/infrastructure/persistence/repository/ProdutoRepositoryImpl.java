@@ -20,6 +20,11 @@ public class ProdutoRepositoryImpl implements PanacheRepositoryBase<ProdutoEntit
         return find("id", id).firstResultOptional();
     }
 
+    public Optional<ProdutoEntity> findByName(String nome) {
+        return find("nome", nome).firstResultOptional();
+    }
+
+
     /**
      * Busca produtos por tipo (ex: "CDB", "Fundo"). Se tipo null ou vazio, retorna todos.
      */

@@ -3,7 +3,7 @@ package caixaverso.application.dto;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public record SimulacaoAgrupadaDTO(
+public record SimulacaoAgrupadaResponseDTO(
         String produto,
         LocalDate data,
         Long quantidadeSimulacoes,

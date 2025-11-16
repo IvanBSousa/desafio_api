@@ -38,10 +38,7 @@ public class ProdutoUseCase {
 
         atual.setNome(novo.getNome());
         atual.setTipo(novo.getTipo());
-        atual.setMinValor(novo.getMinValor());
-        atual.setMaxValor(novo.getMaxValor());
-        atual.setMinPrazo(novo.getMinPrazo());
-        atual.setMaxPrazo(novo.getMaxPrazo());
+
 
         return atual;
     }

@@ -1,5 +1,6 @@
 package caixaverso.infrastructure.persistence.repository;
 
+import caixaverso.application.dto.TelemetriaResponseDTO;
 import caixaverso.infrastructure.persistence.entity.TelemetriaEntity;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -19,11 +20,11 @@ public class TelemetriaRepository implements PanacheRepositoryBase<TelemetriaEnt
     /**
      * Agrega telemetria por servico: retorna Object[] com [0]=servico (String), [1]=quantidade (Long), [2]=mediaTempoMs (Double)
      */
-    public List<Object[]> aggregateByService(OffsetDateTime inicio, OffsetDateTime fim) {
+    public List<TelemetriaResponseDTO> aggregateByService(OffsetDateTime inicio, OffsetDateTime fim) {
         String jpql = "SELECT t.servico, COUNT(t), AVG(t.tempoMs) FROM TelemetriaEntity t "
                 + "WHERE t.dataExec BETWEEN :inicio AND :fim GROUP BY t.servico";
         return getEntityManager()
-                .createQuery(jpql, Object[].class)
+                .createQuery(jpql, TelemetriaResponseDTO.class)
                 .setParameter("inicio", inicio)
                 .setParameter("fim", fim)
                 .getResultList();

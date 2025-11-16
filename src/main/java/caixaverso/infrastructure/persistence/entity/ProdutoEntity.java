@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "produtos")
+@Table(name = "produto")
 public class ProdutoEntity extends PanacheEntityBase {
 
     @Id

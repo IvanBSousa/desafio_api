@@ -8,7 +8,7 @@ import jakarta.ws.rs.core.MediaType;
 import java.time.LocalDate;
 import java.util.List;
 
-@Path("/telemetriaResponse")
+@Path("/telemetria")
 @Produces(MediaType.APPLICATION_JSON)
 public class TelemetriaResource {
 
@@ -23,6 +23,6 @@ public class TelemetriaResource {
         LocalDate dataInicio = LocalDate.parse(inicio);
         LocalDate dataFim = LocalDate.parse(fim);
 
-        return telemetriaUseCase.agruparPorServico(dataInicio, dataFim);
+        return telemetriaUseCase.consolidadoPeriodo(dataInicio, dataFim);
     }
 }
