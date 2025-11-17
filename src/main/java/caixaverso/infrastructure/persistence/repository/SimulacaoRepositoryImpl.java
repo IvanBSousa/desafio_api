@@ -7,7 +7,12 @@ import caixaverso.infrastructure.persistence.entity.SimulacaoEntity;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
@@ -33,20 +38,69 @@ public class SimulacaoRepositoryImpl implements SimulacaoRepository {
                 .getResultList();
     }
 
+//    @Override
+//    public List<SimulacaoAgrupadaResponseDTO> agruparPorProdutoDia() {
+//        return em.createQuery("""
+//                SELECT new caixaverso.application.dto.SimulacaoAgrupadaResponseDTO(
+//                    s.produto,
+//                    FUNCTION('DATE', s.dataSimulacao),
+//                    COUNT(s),
+//                    SUM(s.valorInvestido),
+//                    SUM(s.valorFinal)
+//                )
+//                FROM SimulacaoEntity s
+//                GROUP BY FUNCTION('DATE', s.dataSimulacao), s.produto
+//                ORDER BY FUNCTION('DATE', s.dataSimulacao) DESC
+//            """, SimulacaoAgrupadaResponseDTO.class)
+//                .getResultList();
+//    }
+
     @Override
     public List<SimulacaoAgrupadaResponseDTO> agruparPorProdutoDia() {
-        return em.createQuery("""
-                SELECT new caixaverso.application.dto.SimulacaoAgrupadaDTO(
-                    s.produto,
-                    FUNCTION('DATE', s.dataSimulacao),
-                    COUNT(s),
-                    SUM(s.valorInvestido),
-                    SUM(s.valorFinal)
-                )
-                FROM SimulacaoEntity s
-                GROUP BY FUNCTION('DATE', s.dataSimulacao), s.produto
-                ORDER BY FUNCTION('DATE', s.dataSimulacao) DESC
-            """, SimulacaoAgrupadaResponseDTO.class)
-                .getResultList();
+        String jpql = """
+            SELECT s.produto, CAST(s.dataSimulacao AS java.time.LocalDate), COUNT(s), SUM(s.valorInvestido), SUM(s.valorFinal)
+            FROM SimulacaoEntity s
+            GROUP BY CAST(s.dataSimulacao AS java.time.LocalDate), s.produto
+            ORDER BY CAST(s.dataSimulacao AS java.time.LocalDate) DESC
+            """;
+
+        Query q = em.createQuery(jpql);
+        @SuppressWarnings("unchecked")
+        List<Object[]> rows = q.getResultList();
+
+        List<SimulacaoAgrupadaResponseDTO> result = new ArrayList<>(rows.size());
+        for (Object[] row : rows) {
+            Object produtoObj = row[0];
+            Object dateObj = row[1];
+            Object countObj = row[2];
+            Object sumInvestidoObj = row[3];
+            Object sumFinalObj = row[4];
+
+            String produto = produtoObj == null ? null : produtoObj.toString();
+
+            LocalDate data;
+            if (dateObj instanceof java.time.LocalDate) {
+                data = (LocalDate) dateObj;
+            } else if (dateObj instanceof Date) {
+                data = ((Date) dateObj).toLocalDate();
+            } else {
+                data = null;
+            }
+
+            Long quantidade = countObj == null ? 0L : ((Number) countObj).longValue();
+
+            BigDecimal mediaValorFinal = toBigDecimal(sumFinalObj).divide(BigDecimal.valueOf(quantidade));
+
+            result.add(new SimulacaoAgrupadaResponseDTO(produto, data, quantidade, mediaValorFinal));
+        }
+
+        return result;
+    }
+
+    private static BigDecimal toBigDecimal(Object obj) {
+        if (obj == null) return BigDecimal.ZERO;
+        if (obj instanceof BigDecimal) return (BigDecimal) obj;
+        if (obj instanceof Number) return new BigDecimal(obj.toString());
+        return BigDecimal.ZERO;
     }
 }

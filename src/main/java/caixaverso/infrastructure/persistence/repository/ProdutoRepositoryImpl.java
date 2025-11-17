@@ -1,13 +1,17 @@
 package caixaverso.infrastructure.persistence.repository;
 
 import caixaverso.domain.entity.Produto;
+import caixaverso.domain.enums.PerfilRiscoEnum;
 import caixaverso.infrastructure.persistence.entity.ProdutoEntity;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
+import static caixaverso.domain.enums.PerfilRiscoEnum.*;
 
 @ApplicationScoped
 public class ProdutoRepositoryImpl implements PanacheRepositoryBase<ProdutoEntity, Integer> {
@@ -80,13 +84,26 @@ public class ProdutoRepositoryImpl implements PanacheRepositoryBase<ProdutoEntit
     }
 
 
-    public List<Produto> buscarPorPerfil(String perfilRisco) {
-        return getEntityManager().createQuery("""
-            SELECT p FROM ProdutoEntity p
-            WHERE p.risco = :risco
-        """, Produto.class)
-                .setParameter("risco", perfilRisco)
-                .getResultList();
+//    public List<ProdutoEntity> buscarPorPerfil(String perfilRisco) {
+//        return getEntityManager().createQuery("""
+//            SELECT p FROM ProdutoEntity p
+//            WHERE p.risco = :risco
+//        """, ProdutoEntity.class)
+//                .setParameter("risco", perfilRisco)
+//                .getResultList();
+//    }
+
+    public List<ProdutoEntity> buscarPorPerfil(PerfilRiscoEnum perfil) {
+        return switch (perfil) {
+            case CONSERVADOR -> buscarPorRisco(List.of("Baixo"));
+            case MODERADO -> buscarPorRisco(List.of("Médio"));
+            case AGRESSIVO -> buscarPorRisco(List.of("Alto"));
+            default -> Collections.emptyList();
+        };
+    }
+
+    public List<ProdutoEntity> buscarPorRisco(List<String> riscos) {
+        return list("risco in ?1", riscos);
     }
 
 }

@@ -2,6 +2,7 @@ package caixaverso.application.usecase;
 
 import caixaverso.application.dto.PerfilRiscoResponseDTO;
 import caixaverso.domain.entity.Investimento;
+import caixaverso.infrastructure.persistence.entity.InvestimentoEntity;
 import caixaverso.infrastructure.persistence.repository.InvestimentoRepositoryImpl;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -22,7 +23,7 @@ public class PerfilRiscoUseCase {
      */
     public PerfilRiscoResponseDTO calcularPerfil(Long clienteId) {
 
-        List<Investimento> historico = investimentoRepository.listarPorCliente(clienteId);
+        List<InvestimentoEntity> historico = investimentoRepository.listarPorCliente(clienteId);
 
         if (historico.isEmpty()) {
             return new PerfilRiscoResponseDTO(

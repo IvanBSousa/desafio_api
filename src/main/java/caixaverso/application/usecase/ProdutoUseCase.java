@@ -1,6 +1,7 @@
 package caixaverso.application.usecase;
 
 import caixaverso.application.dto.ProdutoDTO;
+import caixaverso.domain.enums.PerfilRiscoEnum;
 import caixaverso.infrastructure.mapper.ProdutoMapper;
 import caixaverso.infrastructure.persistence.entity.ProdutoEntity;
 import caixaverso.infrastructure.persistence.repository.ProdutoRepositoryImpl;
@@ -52,7 +53,7 @@ public class ProdutoUseCase {
         return repository.findValidByParams(valor, prazoMeses, tipoProduto);
     }
 
-    public List<ProdutoDTO> buscarProdutosPorPerfil(String perfil) {
+    public List<ProdutoDTO> buscarProdutosPorPerfil(PerfilRiscoEnum perfil) {
         return repository.buscarPorPerfil(perfil)
                 .stream()
                 .map(mapper::toDTO)

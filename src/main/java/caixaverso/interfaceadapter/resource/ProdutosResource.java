@@ -2,6 +2,7 @@ package caixaverso.interfaceadapter.resource;
 
 import caixaverso.application.usecase.ProdutoUseCase;
 import caixaverso.application.dto.ProdutoDTO;
+import caixaverso.domain.enums.PerfilRiscoEnum;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -16,7 +17,7 @@ public class ProdutosResource {
 
     @GET
     @Path("/{perfil}")
-    public List<ProdutoDTO> recomendar(@PathParam("perfil") String perfil) {
+    public List<ProdutoDTO> recomendar(@PathParam("perfil") PerfilRiscoEnum perfil) {
         return produtoUseCase.buscarProdutosPorPerfil(perfil);
     }
 }

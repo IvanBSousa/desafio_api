@@ -2,6 +2,7 @@ package caixaverso.infrastructure.persistence.repository;
 
 import caixaverso.domain.entity.Investimento;
 import caixaverso.domain.repository.InvestimentoRepository;
+import caixaverso.infrastructure.persistence.entity.InvestimentoEntity;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
@@ -15,12 +16,12 @@ public class InvestimentoRepositoryImpl implements InvestimentoRepository {
     EntityManager em;
 
     @Override
-    public List<Investimento> listarPorCliente(Long clienteId) {
+    public List<InvestimentoEntity> listarPorCliente(Long clienteId) {
         return em.createQuery("""
                 SELECT i FROM InvestimentoEntity i
                 WHERE i.clienteId = :clienteId
                 ORDER BY i.data DESC
-            """, Investimento.class)
+            """, InvestimentoEntity.class)
                 .setParameter("clienteId", clienteId)
                 .getResultList();
     }

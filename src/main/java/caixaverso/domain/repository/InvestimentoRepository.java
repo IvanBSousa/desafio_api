@@ -1,10 +1,10 @@
 package caixaverso.domain.repository;
 
-import caixaverso.domain.entity.Investimento;
+import caixaverso.infrastructure.persistence.entity.InvestimentoEntity;
 
 import java.util.List;
 
 public interface InvestimentoRepository {
 
-    List<Investimento> listarPorCliente(Long clienteId);
+    List<InvestimentoEntity> listarPorCliente(Long clienteId);
 }

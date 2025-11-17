@@ -1,15 +1,32 @@
 package caixaverso.infrastructure.persistence.entity;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Positive;
+import jdk.jfr.Timestamp;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "investimento")
 public class InvestimentoEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "cliente_id", nullable = false)
     private Long clienteId;
+
     private String tipo;
+
+    @Positive
     private BigDecimal valor;
+
+    @Positive
     private BigDecimal rentabilidade;
+
+    @Timestamp
     private LocalDate data;
 
     public Long getId() {
