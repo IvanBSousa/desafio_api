@@ -1,20 +1,14 @@
 package caixaverso.domain.entity;
 
-import jakarta.persistence.*;
-
-import java.time.OffsetDateTime;
-
 public class Telemetria{
 
     private Long id;
 
-    private String servico;
+    private String nome;
 
-    private Integer tempoMs;
+    private Long quantidadeChamadas;
 
-    private Boolean sucesso;
-
-    private OffsetDateTime dataExec;
+    private Long mediaTempoRespostaMs;
 
     public Long getId() {
         return id;
@@ -24,39 +18,35 @@ public class Telemetria{
         this.id = id;
     }
 
-    public String getServico() {
-        return servico;
+    public String getNome() {
+        return nome;
     }
 
-    public void setServico(String servico) {
-        this.servico = servico;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public Integer getTempoMs() {
-        return tempoMs;
+    public Long getQuantidadeChamadas() {
+        return quantidadeChamadas;
     }
 
-    public void setTempoMs(Integer tempoMs) {
-        this.tempoMs = tempoMs;
+    public void setQuantidadeChamadas(Long quantidadeChamadas) {
+        this.quantidadeChamadas = quantidadeChamadas;
     }
 
-    public Boolean getSucesso() { return sucesso; }
-
-    public void setSucesso(Boolean sucesso) { this.sucesso = sucesso; }
-
-    public OffsetDateTime getDataExec() {
-        return dataExec;
+    public Long getMediaTempoRespostaMs() {
+        return mediaTempoRespostaMs;
     }
 
-    public void setDataExec(OffsetDateTime dataExec) {
-        this.dataExec = dataExec;
+    public void setMediaTempoRespostaMs(Long mediaTempoRespostaMs) {
+        this.mediaTempoRespostaMs = mediaTempoRespostaMs;
     }
 
-    public Telemetria(Long id, String servico, Integer tempoMs, OffsetDateTime dataExec) {
+    public Telemetria(Long id, String nome, Long quantidadeChamadas, Long mediaTempoRespostaMs) {
         this.id = id;
-        this.servico = servico;
-        this.tempoMs = tempoMs;
-        this.dataExec = dataExec;
+        this.nome = nome;
+        this.quantidadeChamadas = quantidadeChamadas;
+        this.mediaTempoRespostaMs = mediaTempoRespostaMs;
     }
 
     public Telemetria() {

@@ -1,5 +1,6 @@
 package caixaverso.application.telemetria;
 
+import caixaverso.application.dto.TelemetriaItemDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,14 +17,14 @@ public class TelemetriaService {
         totalExecutionTimes.computeIfAbsent(serviceName, k -> new LongAdder()).add(executionTime);
     }
 
-    public Map<String, TelemetriaDTO> getTelemetriaDTO() {
-        Map<String, TelemetriaDTO> results = new ConcurrentHashMap<>();
+    public Map<String, TelemetriaItemDTO> getTelemetryData() {
+        Map<String, TelemetriaItemDTO> results = new ConcurrentHashMap<>();
         callCounts.forEach((serviceName, count) -> {
             long totalTime = totalExecutionTimes.getOrDefault(serviceName, new LongAdder()).sum();
             long callCount = count.sum();
             if (callCount > 0) {
                 long averageTime = totalTime / callCount;
-                results.put(serviceName, new TelemetriaDTO(serviceName, callCount, averageTime));
+                results.put(serviceName, new TelemetriaItemDTO(serviceName, callCount, averageTime));
             }
         });
         return results;

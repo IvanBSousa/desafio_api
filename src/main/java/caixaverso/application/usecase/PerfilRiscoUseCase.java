@@ -1,6 +1,7 @@
 package caixaverso.application.usecase;
 
 import caixaverso.application.dto.PerfilRiscoResponseDTO;
+import caixaverso.application.telemetria.Monitor;
 import caixaverso.domain.entity.Investimento;
 import caixaverso.infrastructure.persistence.entity.InvestimentoEntity;
 import caixaverso.infrastructure.persistence.repository.InvestimentoRepositoryImpl;
@@ -21,6 +22,7 @@ public class PerfilRiscoUseCase {
      * - frequência de movimentações
      * - preferência por liquidez/rentabilidade (derivada de tipos escolhidos)
      */
+    @Monitor(serviceName = "perfil-risco")
     public PerfilRiscoResponseDTO calcularPerfil(Long clienteId) {
 
         List<InvestimentoEntity> historico = investimentoRepository.listarPorCliente(clienteId);

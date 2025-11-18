@@ -16,14 +16,14 @@ public class TelemetriaUseCase {
     @Inject
     TelemetriaRepository repository;
 
-    public TelemetriaEntity registrar(String servico, Integer tempoMs, boolean sucesso) {
-        TelemetriaEntity t = new TelemetriaEntity();
-        t.setServico(servico);
-        t.setTempoMs(tempoMs);
-        t.setSucesso(sucesso);
-        t.setDataExec(OffsetDateTime.now());
-        return repository.save(t);
-    }
+//    public TelemetriaEntity registrar(String servico, Integer tempoMs, boolean sucesso) {
+//        TelemetriaEntity t = new TelemetriaEntity();
+//        t.setServico(servico);
+//        t.setTempoMs(tempoMs);
+//        t.setSucesso(sucesso);
+//        t.setDataExec(OffsetDateTime.now());
+//        return repository.save(t);
+//    }
 
     public List<TelemetriaResponseDTO> consolidadoPeriodo(LocalDate inicio, LocalDate fim) {
         OffsetDateTime dataInicio = inicio.atStartOfDay().atOffset(OffsetDateTime.now().getOffset());
