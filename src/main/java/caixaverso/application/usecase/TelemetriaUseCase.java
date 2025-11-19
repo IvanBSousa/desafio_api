@@ -1,34 +1,32 @@
 package caixaverso.application.usecase;
 
-import caixaverso.application.dto.TelemetriaResponseDTO;
-import caixaverso.infrastructure.persistence.entity.TelemetriaEntity;
-import caixaverso.infrastructure.persistence.repository.TelemetriaRepository;
+import caixaverso.application.dto.TelemetriaItemDTO;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.LongAdder;
 
 @ApplicationScoped
 public class TelemetriaUseCase {
 
-    @Inject
-    TelemetriaRepository repository;
+    private final Map<String, LongAdder> callCounts = new ConcurrentHashMap<>();
+    private final Map<String, LongAdder> totalExecutionTimes = new ConcurrentHashMap<>();
 
-//    public TelemetriaEntity registrar(String servico, Integer tempoMs, boolean sucesso) {
-//        TelemetriaEntity t = new TelemetriaEntity();
-//        t.setServico(servico);
-//        t.setTempoMs(tempoMs);
-//        t.setSucesso(sucesso);
-//        t.setDataExec(OffsetDateTime.now());
-//        return repository.save(t);
-//    }
-
-    public List<TelemetriaResponseDTO> consolidadoPeriodo(LocalDate inicio, LocalDate fim) {
-        OffsetDateTime dataInicio = inicio.atStartOfDay().atOffset(OffsetDateTime.now().getOffset());
-        OffsetDateTime dataFim = fim.plusDays(1).atStartOfDay().atOffset(OffsetDateTime.now().getOffset());
-        return repository.aggregateByService(dataInicio, dataFim);
+    public void recordExecution(String serviceName, long executionTime) {
+        callCounts.computeIfAbsent(serviceName, k -> new LongAdder()).increment();
+        totalExecutionTimes.computeIfAbsent(serviceName, k -> new LongAdder()).add(executionTime);
     }
 
+    public Map<String, TelemetriaItemDTO> getTelemetryData() {
+        Map<String, TelemetriaItemDTO> results = new ConcurrentHashMap<>();
+        callCounts.forEach((serviceName, count) -> {
+            long totalTime = totalExecutionTimes.getOrDefault(serviceName, new LongAdder()).sum();
+            long callCount = count.sum();
+            if (callCount > 0) {
+                long averageTime = totalTime / callCount;
+                results.put(serviceName, new TelemetriaItemDTO(serviceName, callCount, averageTime));
+            }
+        });
+        return results;
+    }
 }

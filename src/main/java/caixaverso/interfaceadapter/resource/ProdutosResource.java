@@ -12,8 +12,11 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public class ProdutosResource {
 
-    @Inject
-    ProdutoUseCase produtoUseCase;
+    private final ProdutoUseCase produtoUseCase;
+
+    public ProdutosResource(ProdutoUseCase produtoUseCase) {
+        this.produtoUseCase = produtoUseCase;
+    }
 
     @GET
     @Path("/{perfil}")

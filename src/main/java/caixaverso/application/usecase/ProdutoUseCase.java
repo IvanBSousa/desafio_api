@@ -14,23 +14,26 @@ import java.util.List;
 @ApplicationScoped
 public class ProdutoUseCase {
 
-    @Inject
-    ProdutoRepositoryImpl repository;
 
-    @Inject
-    ProdutoMapper mapper;
+    private final ProdutoRepositoryImpl produtoRepository;
+    private final ProdutoMapper produtoMapper;
+
+    public ProdutoUseCase(ProdutoRepositoryImpl produtoRepository, ProdutoMapper produtoMapper) {
+        this.produtoRepository = produtoRepository;
+        this.produtoMapper = produtoMapper;
+    }
 
     public List<ProdutoEntity> listar() {
-        return repository.listAllProdutos();
+        return produtoRepository.listAllProdutos();
     }
 
     public ProdutoEntity buscarPorId(Integer id) {
-        return repository.findByIdOptional(id)
+        return produtoRepository.findByIdOptional(id)
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
     }
 
     public ProdutoEntity criarProduto(ProdutoEntity entity) {
-        repository.persistProduto(entity);
+        produtoRepository.persistProduto(entity);
         return entity;
     }
 
@@ -46,17 +49,17 @@ public class ProdutoUseCase {
 
     public void deletar(Integer id) {
         ProdutoEntity produto = buscarPorId(id);
-        repository.delete(produto);
+        produtoRepository.delete(produto);
     }
 
     public List<ProdutoEntity> sugerirProdutos(BigDecimal valor, int prazoMeses, String tipoProduto) {
-        return repository.findValidByParams(valor, prazoMeses, tipoProduto);
+        return produtoRepository.findValidByParams(valor, prazoMeses, tipoProduto);
     }
 
     public List<ProdutoDTO> buscarProdutosPorPerfil(PerfilRiscoEnum perfil) {
-        return repository.buscarPorPerfil(perfil)
+        return produtoRepository.buscarPorPerfil(perfil)
                 .stream()
-                .map(mapper::toDTO)
+                .map(produtoMapper::toDTO)
                 .toList();
     }
 }

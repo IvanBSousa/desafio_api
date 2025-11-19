@@ -4,26 +4,26 @@ import caixaverso.application.dto.InvestimentoDTO;
 import caixaverso.infrastructure.mapper.InvestimentoMapper;
 import caixaverso.infrastructure.persistence.repository.InvestimentoRepositoryImpl;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 
 import java.util.List;
 
 @ApplicationScoped
 public class InvestimentoUseCase {
 
-    @Inject
-    InvestimentoRepositoryImpl repository;
+    private final InvestimentoRepositoryImpl investimentoRepository;
+    private final InvestimentoMapper investimentoMapper;
 
-    @Inject
-    InvestimentoMapper mapper;
+    public InvestimentoUseCase(InvestimentoRepositoryImpl investimentoRepository,
+                               InvestimentoMapper investimentoMapper) {
+        this.investimentoRepository = investimentoRepository;
+        this.investimentoMapper = investimentoMapper;
+    }
 
-    /**
-     * Lista histórico de investimentos do cliente
-     */
     public List<InvestimentoDTO> listarPorCliente(Long clienteId) {
-        return repository.listarPorCliente(clienteId)
+        return investimentoRepository.listarPorCliente(clienteId)
                 .stream()
-                .map(mapper::toDTO)
+                .map(investimentoMapper::entityToModel)
+                .map(investimentoMapper::modeltoDTO)
                 .toList();
     }
 }

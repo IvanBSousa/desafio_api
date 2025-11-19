@@ -15,8 +15,11 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 public class SimulacaoResource {
 
-    @Inject
-    SimulacaoUseCase simulacaoUseCase;
+    private final SimulacaoUseCase simulacaoUseCase;
+
+    public SimulacaoResource(SimulacaoUseCase simulacaoUseCase) {
+        this.simulacaoUseCase = simulacaoUseCase;
+    }
 
     @POST
     @Path("/simular-investimento")

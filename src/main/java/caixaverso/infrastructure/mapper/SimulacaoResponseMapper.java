@@ -10,9 +10,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class SimulacaoResponseMapper {
 
-    /**
-     * Converte a entidade de simulação para o DTO final da API.
-     */
     public SimulacaoResponseDTO toResponse(SimulacaoEntity entity, ProdutoEntity produto) {
         return new SimulacaoResponseDTO(
                 toProdutoValidadoDTO(produto),

@@ -1,7 +1,6 @@
 package caixaverso.infrastructure.persistence.repository;
 
 import caixaverso.application.dto.SimulacaoAgrupadaResponseDTO;
-import caixaverso.domain.entity.Simulacao;
 import caixaverso.domain.repository.SimulacaoRepository;
 import caixaverso.infrastructure.persistence.entity.SimulacaoEntity;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -38,23 +37,6 @@ public class SimulacaoRepositoryImpl implements SimulacaoRepository {
                 .getResultList();
     }
 
-//    @Override
-//    public List<SimulacaoAgrupadaResponseDTO> agruparPorProdutoDia() {
-//        return em.createQuery("""
-//                SELECT new caixaverso.application.dto.SimulacaoAgrupadaResponseDTO(
-//                    s.produto,
-//                    FUNCTION('DATE', s.dataSimulacao),
-//                    COUNT(s),
-//                    SUM(s.valorInvestido),
-//                    SUM(s.valorFinal)
-//                )
-//                FROM SimulacaoEntity s
-//                GROUP BY FUNCTION('DATE', s.dataSimulacao), s.produto
-//                ORDER BY FUNCTION('DATE', s.dataSimulacao) DESC
-//            """, SimulacaoAgrupadaResponseDTO.class)
-//                .getResultList();
-//    }
-
     @Override
     public List<SimulacaoAgrupadaResponseDTO> agruparPorProdutoDia() {
         String jpql = """
@@ -73,7 +55,6 @@ public class SimulacaoRepositoryImpl implements SimulacaoRepository {
             Object produtoObj = row[0];
             Object dateObj = row[1];
             Object countObj = row[2];
-            Object sumInvestidoObj = row[3];
             Object sumFinalObj = row[4];
 
             String produto = produtoObj == null ? null : produtoObj.toString();

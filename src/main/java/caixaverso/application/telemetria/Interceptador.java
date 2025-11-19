@@ -1,5 +1,6 @@
 package caixaverso.application.telemetria;
 
+import caixaverso.application.usecase.TelemetriaUseCase;
 import jakarta.annotation.Priority;
 import jakarta.inject.Inject;
 import jakarta.interceptor.AroundInvoke;
@@ -11,10 +12,10 @@ import jakarta.interceptor.InvocationContext;
 @Priority(Interceptor.Priority.APPLICATION)
 public class Interceptador {
 
-    private final TelemetriaService telemetryService;
+    private final TelemetriaUseCase telemetryService;
 
     @Inject
-    public Interceptador(TelemetriaService telemetryService) {
+    public Interceptador(TelemetriaUseCase telemetryService) {
         this.telemetryService = telemetryService;
     }
 

@@ -5,7 +5,6 @@ import caixaverso.application.dto.SimulacaoHistoricoDTO;
 import caixaverso.application.dto.SimulacaoRequestDTO;
 import caixaverso.application.dto.SimulacaoResponseDTO;
 import caixaverso.application.telemetria.Monitor;
-import caixaverso.domain.entity.Simulacao;
 import caixaverso.infrastructure.mapper.SimulacaoHistoricoMapper;
 import caixaverso.infrastructure.mapper.SimulacaoResponseMapper;
 import caixaverso.infrastructure.persistence.entity.ProdutoEntity;
@@ -13,7 +12,6 @@ import caixaverso.infrastructure.persistence.entity.SimulacaoEntity;
 import caixaverso.infrastructure.persistence.repository.ProdutoRepositoryImpl;
 import caixaverso.infrastructure.persistence.repository.SimulacaoRepositoryImpl;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -23,17 +21,18 @@ import java.util.List;
 @ApplicationScoped
 public class SimulacaoUseCase {
 
-    @Inject
-    ProdutoRepositoryImpl produtoRepositoryImpl;
+    private final ProdutoRepositoryImpl produtoRepositoryImpl;
+    private final SimulacaoRepositoryImpl simulacaoRepository;
+    private final SimulacaoHistoricoMapper historicoMapper;
+    private final SimulacaoResponseMapper responseMapper;
 
-    @Inject
-    SimulacaoRepositoryImpl simulacaoRepository;
-
-    @Inject
-    SimulacaoHistoricoMapper historicoMapper;
-
-    @Inject
-    SimulacaoResponseMapper responseMapper;
+    public SimulacaoUseCase(ProdutoRepositoryImpl produtoRepositoryImpl, SimulacaoRepositoryImpl simulacaoRepository,
+                            SimulacaoHistoricoMapper historicoMapper, SimulacaoResponseMapper responseMapper) {
+        this.produtoRepositoryImpl = produtoRepositoryImpl;
+        this.simulacaoRepository = simulacaoRepository;
+        this.historicoMapper = historicoMapper;
+        this.responseMapper = responseMapper;
+    }
 
     public List<SimulacaoHistoricoDTO> listarTodos(int page, int size) {
         List<SimulacaoEntity> lista = simulacaoRepository.listarPaginado(page, size);
@@ -47,8 +46,6 @@ public class SimulacaoUseCase {
 
         ProdutoEntity produto = produtoRepositoryImpl.findByName(nomeProduto)
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
-
-
 
         BigDecimal mensal = converterTaxaAnualParaMensal(produto.getRentabilidade());
         BigDecimal valorFinal = calcularJurosCompostos(valor, mensal, prazoMeses);

@@ -16,7 +16,6 @@ public class TelemetriaMapper {
         entity.setNome(dto.nome());
         entity.setQuantidadeChamadas(dto.quantidadeChamadas());
         entity.setMediaTempoRespostaMs(dto.mediaTempoRespostaMs());
-        // Adicione outros campos conforme necessário
 
         return entity;
     }

@@ -11,8 +11,11 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public class InvestimentosResource {
 
-    @Inject
-    InvestimentoUseCase investimentoUseCase;
+    private final InvestimentoUseCase investimentoUseCase;
+
+    public InvestimentosResource(InvestimentoUseCase investimentoUseCase) {
+        this.investimentoUseCase = investimentoUseCase;
+    }
 
     @GET
     @Path("/{clienteId}")

@@ -1,6 +1,6 @@
 package caixaverso.application.usecase;
 
-import caixaverso.domain.repository.UsuarioRepository;
+import caixaverso.infrastructure.persistence.repository.UsuarioRepositoryImpl;
 import io.quarkus.elytron.security.common.BcryptUtil;
 import io.smallrye.jwt.build.Jwt;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -14,9 +14,9 @@ import java.util.Set;
 @ApplicationScoped
 public class UsuarioUseCase {
 
-    private final UsuarioRepository usuarioRepository;
+    private final UsuarioRepositoryImpl usuarioRepository;
 
-    public UsuarioUseCase(UsuarioRepository usuarioRepository) {
+    public UsuarioUseCase(UsuarioRepositoryImpl usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
     }
 

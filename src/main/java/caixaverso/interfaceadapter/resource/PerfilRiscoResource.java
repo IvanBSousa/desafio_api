@@ -10,8 +10,11 @@ import jakarta.ws.rs.core.MediaType;
 @Produces(MediaType.APPLICATION_JSON)
 public class PerfilRiscoResource {
 
-    @Inject
-    PerfilRiscoUseCase perfilRiscoUseCase;
+    private final PerfilRiscoUseCase perfilRiscoUseCase;
+
+    public PerfilRiscoResource(PerfilRiscoUseCase perfilRiscoUseCase) {
+        this.perfilRiscoUseCase = perfilRiscoUseCase;
+    }
 
     @GET
     @Path("/{clienteId}")
