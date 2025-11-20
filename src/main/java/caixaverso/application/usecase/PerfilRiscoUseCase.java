@@ -1,13 +1,11 @@
 package caixaverso.application.usecase;
 
 import caixaverso.application.dto.PerfilRiscoResponseDTO;
-import caixaverso.application.telemetria.Monitor;
 import caixaverso.infrastructure.persistence.entity.InvestimentoEntity;
 import caixaverso.infrastructure.persistence.entity.TelemetriaEntity;
 import caixaverso.infrastructure.persistence.repository.InvestimentoRepositoryImpl;
 import caixaverso.infrastructure.persistence.repository.TelemetriaRepositoryImpl;
 import jakarta.enterprise.context.ApplicationScoped;
-import org.hibernate.grammars.hql.HqlParser;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -24,7 +22,6 @@ public class PerfilRiscoUseCase {
         this.investimentoRepository = investimentoRepository;
     }
 
-    @Monitor(serviceName = "perfil-risco")
     public PerfilRiscoResponseDTO calcularPerfil(Long clienteId) {
 
         Long inicio = System.currentTimeMillis();

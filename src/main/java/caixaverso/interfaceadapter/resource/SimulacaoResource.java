@@ -2,6 +2,7 @@ package caixaverso.interfaceadapter.resource;
 
 import caixaverso.application.usecase.SimulacaoUseCase;
 import caixaverso.application.dto.*;
+import io.quarkus.security.Authenticated;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.persistence.Table;
@@ -17,6 +18,7 @@ import java.util.List;
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Authenticated
 public class SimulacaoResource {
 
     private final SimulacaoUseCase simulacaoUseCase;
@@ -27,6 +29,7 @@ public class SimulacaoResource {
 
     @POST
     @Path("/simular-investimento")
+    @RolesAllowed({"Admin", "User"})
     @Transactional
     public Response simular(@Valid SimulacaoRequestDTO request) {
         SimulacaoResponseDTO response = simulacaoUseCase.simular(request);
@@ -35,6 +38,7 @@ public class SimulacaoResource {
 
     @GET
     @Path("simulacoes")
+    @RolesAllowed("Admin")
     public Response listarTodos(@QueryParam("page") @DefaultValue("0") int page,
             @QueryParam("size") @DefaultValue("20") int size) {
         List<SimulacaoHistoricoDTO> simulacoes = simulacaoUseCase.listarTodos(page, size);
@@ -51,6 +55,7 @@ public class SimulacaoResource {
 
     @GET
     @Path("simulacoes/por-produto-dia")
+    @RolesAllowed("Admin")
     public Response listarAgregacao() {
         List<SimulacaoAgrupadaResponseDTO> agregacoes = simulacaoUseCase.agregacaoPorProdutoDia();
         if (agregacoes.isEmpty()) {

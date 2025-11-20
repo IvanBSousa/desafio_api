@@ -2,6 +2,8 @@ package caixaverso.interfaceadapter.resource;
 
 import caixaverso.application.usecase.InvestimentoUseCase;
 import caixaverso.application.dto.InvestimentoDTO;
+import io.quarkus.security.Authenticated;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -11,6 +13,7 @@ import java.util.List;
 
 @Path("/investimentos")
 @Produces(MediaType.APPLICATION_JSON)
+@Authenticated
 public class InvestimentosResource {
 
     private final InvestimentoUseCase investimentoUseCase;
@@ -21,6 +24,7 @@ public class InvestimentosResource {
 
     @GET
     @Path("/{clienteId}")
+    @RolesAllowed("Admin")
     public Response listarPorCliente(@PathParam("clienteId") Long clienteId) {
         List<InvestimentoDTO> investimento = investimentoUseCase.listarPorCliente(clienteId);
         if (investimento.isEmpty()) {

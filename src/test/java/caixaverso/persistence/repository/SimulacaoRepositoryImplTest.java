@@ -3,6 +3,7 @@ package caixaverso.persistence.repository;
 import caixaverso.application.dto.SimulacaoAgrupadaResponseDTO;
 import caixaverso.infrastructure.persistence.entity.SimulacaoEntity;
 import caixaverso.infrastructure.persistence.repository.SimulacaoRepositoryImpl;
+import jakarta.persistence.TypedQuery;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,6 +28,9 @@ class SimulacaoRepositoryImplTest {
 
     @Mock
     EntityManager em;
+
+    @Mock
+    TypedQuery<SimulacaoEntity> typedQuery;
 
     @Mock
     Query query;
@@ -136,5 +140,28 @@ class SimulacaoRepositoryImplTest {
 
         assertEquals(1, result.size());
         assertEquals(BigDecimal.ZERO, result.get(0).mediaValorFinal());
+    }
+
+    @Test
+    void listarPaginado_deveRetornarListaPaginada() {
+
+        // Arrange
+        SimulacaoEntity s1 = new SimulacaoEntity();
+        SimulacaoEntity s2 = new SimulacaoEntity();
+
+        when(em.createQuery(anyString(), eq(SimulacaoEntity.class)))
+                .thenReturn(typedQuery);
+
+        when(typedQuery.setFirstResult(anyInt())).thenReturn(typedQuery);
+        when(typedQuery.setMaxResults(anyInt())).thenReturn(typedQuery);
+
+        when(typedQuery.getResultList())
+                .thenReturn(List.of(s1, s2));
+
+        // Act
+        List<SimulacaoEntity> result = repository.listarPaginado(1, 2);
+
+        // Assert
+        assertEquals(2, result.size());
     }
 }

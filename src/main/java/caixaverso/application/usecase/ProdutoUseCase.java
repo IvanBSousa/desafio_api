@@ -6,14 +6,12 @@ import caixaverso.infrastructure.mapper.ProdutoMapper;
 import caixaverso.infrastructure.persistence.entity.ProdutoEntity;
 import caixaverso.infrastructure.persistence.repository.ProdutoRepositoryImpl;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 @ApplicationScoped
 public class ProdutoUseCase {
-
 
     private final ProdutoRepositoryImpl produtoRepository;
     private final ProdutoMapper produtoMapper;
@@ -39,10 +37,8 @@ public class ProdutoUseCase {
 
     public ProdutoEntity atualizar(Integer id, ProdutoEntity novo) {
         ProdutoEntity atual = buscarPorId(id);
-
         atual.setNome(novo.getNome());
         atual.setTipo(novo.getTipo());
-
 
         return atual;
     }

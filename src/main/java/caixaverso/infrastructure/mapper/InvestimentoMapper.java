@@ -21,47 +21,6 @@ public class InvestimentoMapper {
         );
     }
 
-    public Investimento dtotoModel(Investimento dto) {
-        if (dto == null) return null;
-
-        Investimento model = new Investimento();
-        model.setId(dto.getId());
-        model.setClienteId(dto.getClienteId());
-        model.setTipo(dto.getTipo());
-        model.setValor(dto.getValor());
-        model.setRentabilidade(dto.getRentabilidade());
-        model.setData(dto.getData());
-
-        return model;
-    }
-
-    public InvestimentoEntity dtotoEntity(InvestimentoDTO dto) {
-        if (dto == null) return null;
-
-        InvestimentoEntity entity = new InvestimentoEntity();
-        entity.setId(dto.id());
-        entity.setClienteId(dto.clienteId());
-        entity.setTipo(dto.tipo());
-        entity.setValor(dto.valor());
-        entity.setRentabilidade(dto.rentabilidade());
-        entity.setData(dto.data());
-
-        return entity;
-    }
-
-    public InvestimentoDTO entitytoDTO(InvestimentoEntity entity) {
-        if (entity == null) return null;
-
-        return new InvestimentoDTO(
-                entity.getId(),
-                entity.getClienteId(),
-                entity.getTipo(),
-                entity.getValor(),
-                entity.getRentabilidade(),
-                entity.getData()
-        );
-    }
-
     public Investimento entityToModel(InvestimentoEntity entity) {
         if (entity == null) return null;
 

@@ -3,9 +3,11 @@
 -- POPULAR TABELA USUARIOS (2 registros)
 -- ============================================
 
+-- A senha para o usuário 'admin' é 'admin' e para o usuário 'user' é 'user', ambas hasheadas com BCrypt.
+
 INSERT INTO usuarios (usuario, senha, papel) VALUES
-('admin', '$2a$10$7QJH8jFz1ZpG1K5YkZ6O9uW8JH8jFz1ZpG1K5YkZ6O9uW8JH8jFz1ZpG', 'Admin'),
-('user', '$2a$10$E9jFz1ZpG1K5YkZ6O9uW8JH8jFz1ZpG1K5YkZ6O9uW8JH8jFz1ZpG', 'User');
+('admin', '$2a$12$K0elzLLr.i9Ygrwt.1a1zeEF9Sn/s9EtwiPWhmBmBn/xwdD7thpT2', 'Admin'),
+('user', '$2a$12$r5kF9v0QW2Tynyxeh5gAfeUYjNiRGhWWqsg7SpOx7k08dN/8KVcVG', 'User');
 
 
 -- ============================================

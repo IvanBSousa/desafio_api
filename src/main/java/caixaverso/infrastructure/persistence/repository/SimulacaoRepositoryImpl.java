@@ -83,6 +83,8 @@ public class SimulacaoRepositoryImpl implements SimulacaoRepository {
         return result;
     }
 
+
+
     private static BigDecimal toBigDecimal(Object obj) {
         if (obj == null) return BigDecimal.ZERO;
         if (obj instanceof BigDecimal) return (BigDecimal) obj;

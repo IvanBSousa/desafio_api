@@ -3,6 +3,7 @@ package caixaverso.application.usecase;
 import caixaverso.application.dto.PerfilRiscoResponseDTO;
 import caixaverso.infrastructure.persistence.entity.InvestimentoEntity;
 import caixaverso.infrastructure.persistence.repository.InvestimentoRepositoryImpl;
+import caixaverso.infrastructure.persistence.repository.TelemetriaRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -18,11 +19,13 @@ class PerfilRiscoUseCaseTest {
 
     private InvestimentoRepositoryImpl investimentoRepository;
     private PerfilRiscoUseCase perfilRiscoUseCase;
+    private TelemetriaRepositoryImpl telemetriaRepository;
 
     @BeforeEach
     void setup() {
         investimentoRepository = Mockito.mock(InvestimentoRepositoryImpl.class);
-        perfilRiscoUseCase = new PerfilRiscoUseCase(investimentoRepository, null);
+        telemetriaRepository = Mockito.mock(TelemetriaRepositoryImpl.class);
+        perfilRiscoUseCase = new PerfilRiscoUseCase(investimentoRepository, telemetriaRepository);
     }
 
     @Test

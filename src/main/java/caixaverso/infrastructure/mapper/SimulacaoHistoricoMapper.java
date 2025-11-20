@@ -1,7 +1,6 @@
 package caixaverso.infrastructure.mapper;
 
 import caixaverso.application.dto.SimulacaoHistoricoDTO;
-import caixaverso.domain.entity.Simulacao;
 import caixaverso.infrastructure.persistence.entity.SimulacaoEntity;
 import jakarta.enterprise.context.ApplicationScoped;
 

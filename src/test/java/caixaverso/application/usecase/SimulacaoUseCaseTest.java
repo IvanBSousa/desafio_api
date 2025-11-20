@@ -8,6 +8,7 @@ import caixaverso.infrastructure.persistence.entity.SimulacaoEntity;
 import caixaverso.infrastructure.persistence.repository.ProdutoRepositoryImpl;
 import caixaverso.infrastructure.persistence.repository.SimulacaoRepositoryImpl;
 
+import caixaverso.infrastructure.persistence.repository.TelemetriaRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
@@ -33,6 +34,9 @@ class SimulacaoUseCaseTest {
 
     @Mock
     private SimulacaoResponseMapper responseMapper;
+
+    @Mock
+    private TelemetriaRepositoryImpl telemetriaRepository;
 
     @InjectMocks
     private SimulacaoUseCase useCase;

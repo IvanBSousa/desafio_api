@@ -4,7 +4,6 @@ import caixaverso.application.dto.SimulacaoAgrupadaResponseDTO;
 import caixaverso.application.dto.SimulacaoHistoricoDTO;
 import caixaverso.application.dto.SimulacaoRequestDTO;
 import caixaverso.application.dto.SimulacaoResponseDTO;
-import caixaverso.application.telemetria.Monitor;
 import caixaverso.infrastructure.mapper.SimulacaoHistoricoMapper;
 import caixaverso.infrastructure.mapper.SimulacaoResponseMapper;
 import caixaverso.infrastructure.persistence.entity.ProdutoEntity;
@@ -69,7 +68,6 @@ public class SimulacaoUseCase {
         return entity;
     }
 
-    @Monitor(serviceName = "simulacao-investimento")
     public SimulacaoResponseDTO simular(SimulacaoRequestDTO request) {
         Long inicio = System.currentTimeMillis();
 
