@@ -3,22 +3,31 @@ package caixaverso.application.usecase;
 import caixaverso.application.dto.PerfilRiscoResponseDTO;
 import caixaverso.application.telemetria.Monitor;
 import caixaverso.infrastructure.persistence.entity.InvestimentoEntity;
+import caixaverso.infrastructure.persistence.entity.TelemetriaEntity;
 import caixaverso.infrastructure.persistence.repository.InvestimentoRepositoryImpl;
+import caixaverso.infrastructure.persistence.repository.TelemetriaRepositoryImpl;
 import jakarta.enterprise.context.ApplicationScoped;
+import org.hibernate.grammars.hql.HqlParser;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @ApplicationScoped
 public class PerfilRiscoUseCase {
 
     private final InvestimentoRepositoryImpl investimentoRepository;
+    private final TelemetriaRepositoryImpl telemetriaRepository;
 
-    public PerfilRiscoUseCase(InvestimentoRepositoryImpl investimentoRepository) {
+    public PerfilRiscoUseCase(InvestimentoRepositoryImpl investimentoRepository,
+                              TelemetriaRepositoryImpl telemetriaRepository) {
+        this.telemetriaRepository = telemetriaRepository;
         this.investimentoRepository = investimentoRepository;
     }
 
     @Monitor(serviceName = "perfil-risco")
     public PerfilRiscoResponseDTO calcularPerfil(Long clienteId) {
+
+        Long inicio = System.currentTimeMillis();
 
         List<InvestimentoEntity> historico = investimentoRepository.listarPorCliente(clienteId);
 
@@ -66,6 +75,16 @@ public class PerfilRiscoUseCase {
             perfil = "Conservador";
             descricao = "Prioriza segurança e liquidez.";
         }
+
+        Long fim = System.currentTimeMillis();
+        Long tempoExecucao = fim - inicio;
+
+        TelemetriaEntity dadosTelemetria = new TelemetriaEntity();
+        dadosTelemetria.setNomeServico("perfil-risco");
+        dadosTelemetria.setTempoRespostaMs(tempoExecucao);
+        dadosTelemetria.setDataChamada(LocalDate.now());
+
+        telemetriaRepository.salvar(dadosTelemetria);
 
         return new PerfilRiscoResponseDTO(clienteId, perfil, pontuacao, descricao);
     }

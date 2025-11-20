@@ -1,39 +1,11 @@
+
 -- ============================================
--- POPULAR TABELA CLIENTE (30 registros)
+-- POPULAR TABELA USUARIOS (2 registros)
 -- ============================================
 
-INSERT INTO cliente (perfil, pontuacao, descricao) VALUES
-('Conservador', 25, 'Perfil focado em liquidez e segurança.'),
-('Conservador', 32, 'Investidor com baixa tolerância a risco.'),
-('Conservador', 28, 'Busca investimentos estáveis.'),
-('Conservador', 30, 'Prefere previsibilidade financeira.'),
-('Conservador', 22, 'Perfil de baixo risco.'),
-('Moderado',    55, 'Equilibra risco e retorno.'),
-('Moderado',    60, 'Flexível entre segurança e rentabilidade.'),
-('Moderado',    52, 'Busca diversificação balanceada.'),
-('Moderado',    65, 'Tolerância média ao risco.'),
-('Moderado',    58, 'Busca ganhos moderados.'),
-('Agressivo',   78, 'Busca alto retorno com maior risco.'),
-('Agressivo',   82, 'Tolerância alta ao risco.'),
-('Agressivo',   90, 'Focado em rentabilidade elevada.'),
-('Agressivo',   85, 'Investe em produtos arrojados.'),
-('Agressivo',   88, 'Perfil de risco elevado.'),
-('Conservador', 27, 'Preferência por liquidez diária.'),
-('Moderado',    57, 'Busca equilíbrio financeiro.'),
-('Agressivo',   80, 'Voltado a alta performance.'),
-('Conservador', 35, 'Evita volatilidade.'),
-('Moderado',    61, 'Busca ganhos acima da média.'),
-('Agressivo',   92, 'Aceita grandes oscilações.'),
-('Conservador', 29, 'Risco mínimo.'),
-('Moderado',    54, 'Mix de segurança e retorno.'),
-('Agressivo',   87, 'Apetite elevado a risco.'),
-('Conservador', 26, 'Preferência por renda fixa.'),
-('Moderado',    63, 'Moderado com foco em crescimento.'),
-('Agressivo',   95, 'Muito agressivo.'),
-('Moderado',    59, 'Busca desempenho consistente.'),
-('Conservador', 34, 'Estratégia segura.'),
-('Agressivo',   93, 'Muito tolerante ao risco.');
-
+INSERT INTO usuarios (usuario, senha, papel) VALUES
+('admin', '$2a$10$7QJH8jFz1ZpG1K5YkZ6O9uW8JH8jFz1ZpG1K5YkZ6O9uW8JH8jFz1ZpG', 'Admin'),
+('user', '$2a$10$E9jFz1ZpG1K5YkZ6O9uW8JH8jFz1ZpG1K5YkZ6O9uW8JH8jFz1ZpG', 'User');
 
 
 -- ============================================

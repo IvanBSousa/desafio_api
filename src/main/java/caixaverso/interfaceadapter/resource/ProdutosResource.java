@@ -6,6 +6,8 @@ import caixaverso.domain.enums.PerfilRiscoEnum;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+
 import java.util.List;
 
 @Path("/produtos-recomendados")
@@ -20,7 +22,11 @@ public class ProdutosResource {
 
     @GET
     @Path("/{perfil}")
-    public List<ProdutoDTO> recomendar(@PathParam("perfil") PerfilRiscoEnum perfil) {
-        return produtoUseCase.buscarProdutosPorPerfil(perfil);
+    public Response recomendar(@PathParam("perfil") PerfilRiscoEnum perfil) {
+        List<ProdutoDTO> produtos = produtoUseCase.buscarProdutosPorPerfil(perfil);
+        if (produtos.isEmpty()) {
+            return Response.ok("Nenhum produto encontrato").build();
+        }
+        return Response.ok(produtos).build();
     }
 }

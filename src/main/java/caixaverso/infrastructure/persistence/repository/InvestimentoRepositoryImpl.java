@@ -1,6 +1,5 @@
 package caixaverso.infrastructure.persistence.repository;
 
-import caixaverso.domain.entity.Investimento;
 import caixaverso.domain.repository.InvestimentoRepository;
 import caixaverso.infrastructure.persistence.entity.InvestimentoEntity;
 import jakarta.enterprise.context.ApplicationScoped;

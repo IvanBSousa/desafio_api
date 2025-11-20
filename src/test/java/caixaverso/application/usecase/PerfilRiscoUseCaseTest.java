@@ -22,7 +22,7 @@ class PerfilRiscoUseCaseTest {
     @BeforeEach
     void setup() {
         investimentoRepository = Mockito.mock(InvestimentoRepositoryImpl.class);
-        perfilRiscoUseCase = new PerfilRiscoUseCase(investimentoRepository);
+        perfilRiscoUseCase = new PerfilRiscoUseCase(investimentoRepository, null);
     }
 
     @Test

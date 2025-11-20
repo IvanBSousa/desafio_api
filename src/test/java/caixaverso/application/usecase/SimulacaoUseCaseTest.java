@@ -42,9 +42,6 @@ class SimulacaoUseCaseTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    // ----------------------------------------------------------------------
-    // listarTodos()
-    // ----------------------------------------------------------------------
     @Test
     void deveListarTodos() {
         SimulacaoEntity e1 = new SimulacaoEntity();
@@ -63,9 +60,6 @@ class SimulacaoUseCaseTest {
         verify(historicoMapper, times(2)).toDTO(any());
     }
 
-    // ----------------------------------------------------------------------
-    // simularInterno()
-    // ----------------------------------------------------------------------
     @Test
     void deveSimularInternoComSucesso() {
         ProdutoEntity produto = new ProdutoEntity();
@@ -102,9 +96,6 @@ class SimulacaoUseCaseTest {
         );
     }
 
-    // ----------------------------------------------------------------------
-    // simular()
-    // ----------------------------------------------------------------------
     @Test
     void deveSimularComSucesso() {
         SimulacaoRequestDTO req =
@@ -116,18 +107,10 @@ class SimulacaoUseCaseTest {
         produto.setRentabilidade(new BigDecimal("0.10"));
         produto.setRisco("Baixo");
 
-        SimulacaoEntity entity = new SimulacaoEntity();
-        entity.setProduto("CDB Caixa 2026");
-        entity.setValorInvestido(new BigDecimal("1000"));
-
         when(produtoRepository.findByName("CDB Caixa 2026"))
                 .thenReturn(Optional.of(produto));
 
-        doAnswer(invocation -> {
-            SimulacaoEntity e = invocation.getArgument(0);
-            return null;
-        }).when(simulacaoRepository).salvar(any(SimulacaoEntity.class));
-
+        doNothing().when(simulacaoRepository).salvar(any(SimulacaoEntity.class));
 
         SimulacaoProdutoValidadoDTO produtoValidado =
                 new SimulacaoProdutoValidadoDTO(1,"CDB Caixa 2026", "CDB", new BigDecimal("0.10"),
@@ -138,19 +121,17 @@ class SimulacaoUseCaseTest {
 
         Instant agora = Instant.now();
 
-        when(responseMapper.toResponse(entity, produto))
+        when(responseMapper.toResponse(any(SimulacaoEntity.class), eq(produto)))
                 .thenReturn(new SimulacaoResponseDTO(produtoValidado, resultado, agora));
 
         SimulacaoResponseDTO result = useCase.simular(req);
 
         assertNotNull(result);
         assertEquals("CDB", result.produtoValidado().tipo());
-        verify(responseMapper, times(1)).toResponse(entity, produto);
+
+        verify(responseMapper).toResponse(any(SimulacaoEntity.class), eq(produto));
     }
 
-    // ----------------------------------------------------------------------
-    // agregacaoPorProdutoDia()
-    // ----------------------------------------------------------------------
     @Test
     void deveRetornarAgregacaoPorProdutoDia() {
         when(simulacaoRepository.agruparPorProdutoDia())
@@ -162,9 +143,6 @@ class SimulacaoUseCaseTest {
         verify(simulacaoRepository, times(1)).agruparPorProdutoDia();
     }
 
-    // ----------------------------------------------------------------------
-    // Métodos privados: converterTaxaAnualParaMensal e calcularJurosCompostos
-    // ----------------------------------------------------------------------
     @Test
     void deveConverterTaxaAnualParaMensal() throws Exception {
         Method m = SimulacaoUseCase.class.getDeclaredMethod(

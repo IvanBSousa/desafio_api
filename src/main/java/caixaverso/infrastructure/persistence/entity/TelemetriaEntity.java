@@ -3,6 +3,9 @@ package caixaverso.infrastructure.persistence.entity;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 @Entity
 @Table(name = "telemetria")
 public class TelemetriaEntity extends PanacheEntityBase {
@@ -11,13 +14,13 @@ public class TelemetriaEntity extends PanacheEntityBase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nome;
+    private String nomeServico;
 
-    @Column(name = "quantidade_chamadas")
-    private Long quantidadeChamadas;
+    @Column(name = "data_da_chamada")
+    private LocalDate dataChamada;
 
-    @Column(name = "media_tempo_resposta_ms")
-    private Long mediaTempoRespostaMs;
+    @Column(name = "tempo_resposta_ms")
+    private Long tempoRespostaMs;
 
     public Long getId() {
         return id;
@@ -27,35 +30,35 @@ public class TelemetriaEntity extends PanacheEntityBase {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getNomeServico() {
+        return nomeServico;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNomeServico(String nomeServico) {
+        this.nomeServico = nomeServico;
     }
 
-    public Long getQuantidadeChamadas() {
-        return quantidadeChamadas;
+    public LocalDate getDataChamada() {
+        return dataChamada;
     }
 
-    public void setQuantidadeChamadas(Long quantidadeChamadas) {
-        this.quantidadeChamadas = quantidadeChamadas;
+    public void setDataChamada(LocalDate dataChamada) {
+        this.dataChamada = dataChamada;
     }
 
-    public Long getMediaTempoRespostaMs() {
-        return mediaTempoRespostaMs;
+    public Long getTempoRespostaMs() {
+        return tempoRespostaMs;
     }
 
-    public void setMediaTempoRespostaMs(Long mediaTempoRespostaMs) {
-        this.mediaTempoRespostaMs = mediaTempoRespostaMs;
+    public void setTempoRespostaMs(Long tempoRespostaMs) {
+        this.tempoRespostaMs = tempoRespostaMs;
     }
 
-    public TelemetriaEntity(Long id, String nome, Long quantidadeChamadas, Long mediaTempoRespostaMs) {
+    public TelemetriaEntity(Long id, String nomeServico, LocalDate dataChamada, Long tempoRespostaMs) {
         this.id = id;
-        this.nome = nome;
-        this.quantidadeChamadas = quantidadeChamadas;
-        this.mediaTempoRespostaMs = mediaTempoRespostaMs;
+        this.nomeServico = nomeServico;
+        this.dataChamada = dataChamada;
+        this.tempoRespostaMs = tempoRespostaMs;
     }
 
     public TelemetriaEntity() {

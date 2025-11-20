@@ -10,8 +10,6 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import java.util.Map;
-
 @Path("/auth")
 @Consumes(MediaType.APPLICATION_JSON)
 @PermitAll
@@ -26,14 +24,15 @@ public class AutenticacaoResource {
     @POST
     @Path("/login")
     @Produces(MediaType.TEXT_PLAIN)
-
     public Response login(LoginRequestDTO loginRequest) {
-        return usuarioUseCase.authenticateAndGenerateToken(loginRequest.usuario(), loginRequest.senha())
+        return usuarioUseCase.autenticaEGeraToken(loginRequest.usuario(), loginRequest.senha())
                 .map(token -> Response.ok(token).build())
                 .orElseGet(() -> Response.status(Response.Status.UNAUTHORIZED)
-                        .type(MediaType.APPLICATION_JSON)
-                        .entity(Map.of("error", "Credenciais inválidas.", "details",
-                                "Usuário ou senha incorretos."))
-                        .build());
+                        .entity("""
+                        {
+                          "mensagem": "Credenciais inválidas.",
+                          "detalhes": "Usuário e/ou senha incorretos."
+                        }
+                        """).build());
     }
 }

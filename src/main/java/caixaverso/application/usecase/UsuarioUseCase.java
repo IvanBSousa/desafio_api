@@ -20,12 +20,12 @@ public class UsuarioUseCase {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public Optional<String> authenticateAndGenerateToken(String username, String password) {
+    public Optional<String> autenticaEGeraToken(String username, String password) {
         return usuarioRepository.findByUsername(username)
                 .filter(user -> BcryptUtil.matches(password, user.getSenha()))
                 .map(user -> {
-                    Set<String> roles = new HashSet<>(Arrays.asList(user.getRole().split(",")));
-                    return Jwt.issuer("https://caixaverso.blue.org/issuer")
+                    Set<String> roles = new HashSet<>(Arrays.asList(user.getPapel().split(",")));
+                    return Jwt.issuer("caixaverso")
                             .upn(user.getUsuario())
                             .groups(roles)
                             .expiresIn(Duration.ofHours(24))

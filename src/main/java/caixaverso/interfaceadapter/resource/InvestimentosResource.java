@@ -5,6 +5,8 @@ import caixaverso.application.dto.InvestimentoDTO;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+
 import java.util.List;
 
 @Path("/investimentos")
@@ -19,7 +21,16 @@ public class InvestimentosResource {
 
     @GET
     @Path("/{clienteId}")
-    public List<InvestimentoDTO> listarPorCliente(@PathParam("clienteId") Long clienteId) {
-        return investimentoUseCase.listarPorCliente(clienteId);
+    public Response listarPorCliente(@PathParam("clienteId") Long clienteId) {
+        List<InvestimentoDTO> investimento = investimentoUseCase.listarPorCliente(clienteId);
+        if (investimento.isEmpty()) {
+            return Response.status(Response.Status.OK)
+                    .entity("""
+                    {
+                      "mensagem": "O cliente não possui investimentos."
+                    }
+                    """).build();
+        }
+        return Response.ok(investimento).build();
     }
 }

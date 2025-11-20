@@ -70,7 +70,12 @@ public class SimulacaoRepositoryImpl implements SimulacaoRepository {
 
             Long quantidade = countObj == null ? 0L : ((Number) countObj).longValue();
 
-            BigDecimal mediaValorFinal = toBigDecimal(sumFinalObj).divide(BigDecimal.valueOf(quantidade));
+//            BigDecimal mediaValorFinal = toBigDecimal(sumFinalObj).divide(BigDecimal.valueOf(quantidade));
+
+            BigDecimal somaFinal = toBigDecimal(sumFinalObj);
+            BigDecimal mediaValorFinal = quantidade == 0 ? BigDecimal.ZERO :
+                            somaFinal.divide(BigDecimal.valueOf(quantidade));
+
 
             result.add(new SimulacaoAgrupadaResponseDTO(produto, data, quantidade, mediaValorFinal));
         }

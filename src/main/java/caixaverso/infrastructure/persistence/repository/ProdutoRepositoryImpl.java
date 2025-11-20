@@ -1,6 +1,5 @@
 package caixaverso.infrastructure.persistence.repository;
 
-import caixaverso.domain.entity.Produto;
 import caixaverso.domain.enums.PerfilRiscoEnum;
 import caixaverso.domain.repository.ProdutoRepository;
 import caixaverso.infrastructure.persistence.entity.ProdutoEntity;
@@ -11,8 +10,6 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-
-import static caixaverso.domain.enums.PerfilRiscoEnum.*;
 
 @ApplicationScoped
 public class ProdutoRepositoryImpl implements ProdutoRepository, PanacheRepositoryBase<ProdutoEntity, Integer> {
@@ -61,16 +58,6 @@ public class ProdutoRepositoryImpl implements ProdutoRepository, PanacheReposito
         persist(produto);
         return produto;
     }
-
-//    @Override
-//    public List<ProdutoEntity> buscarPorRisco(String risco) {
-//        return getEntityManager().createQuery("""
-//            SELECT p FROM ProdutoEntity p
-//            WHERE p.risco = :risco
-//        """, ProdutoEntity.class)
-//                .setParameter("risco", risco)
-//                .getResultList();
-//    }
 
     @Override
     public List<ProdutoEntity> buscarPorPerfil(PerfilRiscoEnum perfil) {

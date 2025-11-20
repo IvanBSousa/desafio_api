@@ -19,7 +19,7 @@ public class UsuarioEntity extends PanacheEntityBase {
     private String senha;
 
     @Column(nullable = false)
-    private String role;
+    private String papel;
 
     public Long getId() {
         return id;
@@ -33,7 +33,7 @@ public class UsuarioEntity extends PanacheEntityBase {
         return usuario;
     }
 
-    public void setUsuario(String nome) {
+    public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
 
@@ -45,19 +45,19 @@ public class UsuarioEntity extends PanacheEntityBase {
         this.senha = senha;
     }
 
-    public String getRole() {
-        return role;
+    public String getPapel() {
+        return papel;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setPapel(String papel) {
+        this.papel = papel;
     }
 
-    public UsuarioEntity(Long id, String usuario, String senha, String role) {
+    public UsuarioEntity(Long id, String usuario, String senha, String papel) {
         this.id = id;
         this.usuario = usuario;
         this.senha = senha;
-        this.role = role;
+        this.papel = papel;
     }
 
     public UsuarioEntity() {

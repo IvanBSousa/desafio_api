@@ -7,17 +7,23 @@ services:
       ACCEPT_EULA: "Y"
     ports:
       - "1433:1433"
+    healthcheck:
+      test: /opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P CaixaVerso2025 -Q "SELECT 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
     volumes:
       - mssql-data:/var/opt/mssql
 
   app:
     build: .
     environment:
-      QUARKUS_DATASOURCE_JDBC_URL: "jdbc:sqlserver://mssql:1433;databaseName=YourDatabase"
+      QUARKUS_DATASOURCE_JDBC_URL: "jdbc:sqlserver://mssql:1433;databaseName=DesafioAPI"
       QUARKUS_DATASOURCE_USERNAME: "sa"
       QUARKUS_DATASOURCE_PASSWORD: "CaixaVerso2025"
     depends_on:
-      - mssql
+      mssql:
+        condition: service_healthy
     ports:
       - "8080:8080"
 

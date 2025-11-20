@@ -9,13 +9,16 @@ import caixaverso.infrastructure.mapper.SimulacaoHistoricoMapper;
 import caixaverso.infrastructure.mapper.SimulacaoResponseMapper;
 import caixaverso.infrastructure.persistence.entity.ProdutoEntity;
 import caixaverso.infrastructure.persistence.entity.SimulacaoEntity;
+import caixaverso.infrastructure.persistence.entity.TelemetriaEntity;
 import caixaverso.infrastructure.persistence.repository.ProdutoRepositoryImpl;
 import caixaverso.infrastructure.persistence.repository.SimulacaoRepositoryImpl;
+import caixaverso.infrastructure.persistence.repository.TelemetriaRepositoryImpl;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 @ApplicationScoped
@@ -25,9 +28,12 @@ public class SimulacaoUseCase {
     private final SimulacaoRepositoryImpl simulacaoRepository;
     private final SimulacaoHistoricoMapper historicoMapper;
     private final SimulacaoResponseMapper responseMapper;
+    private final TelemetriaRepositoryImpl telemetriaRepository;
 
     public SimulacaoUseCase(ProdutoRepositoryImpl produtoRepositoryImpl, SimulacaoRepositoryImpl simulacaoRepository,
-                            SimulacaoHistoricoMapper historicoMapper, SimulacaoResponseMapper responseMapper) {
+                            SimulacaoHistoricoMapper historicoMapper, SimulacaoResponseMapper responseMapper,
+                            TelemetriaRepositoryImpl telemetriaRepository) {
+        this.telemetriaRepository = telemetriaRepository;
         this.produtoRepositoryImpl = produtoRepositoryImpl;
         this.simulacaoRepository = simulacaoRepository;
         this.historicoMapper = historicoMapper;
@@ -65,6 +71,7 @@ public class SimulacaoUseCase {
 
     @Monitor(serviceName = "simulacao-investimento")
     public SimulacaoResponseDTO simular(SimulacaoRequestDTO request) {
+        Long inicio = System.currentTimeMillis();
 
         SimulacaoEntity entity = simularInterno(
                 request.clienteId(),
@@ -73,27 +80,22 @@ public class SimulacaoUseCase {
                 request.produto()
         );
 
+        Long fim = System.currentTimeMillis();
+        Long tempoExecucao = fim - inicio;
+
+        TelemetriaEntity dadosTelemetria = new TelemetriaEntity();
+        dadosTelemetria.setNomeServico("simular-investimento");
+        dadosTelemetria.setTempoRespostaMs(tempoExecucao);
+        dadosTelemetria.setDataChamada(LocalDate.now());
+
+        telemetriaRepository.salvar(dadosTelemetria);
+
         return responseMapper.toResponse(
             entity,
             produtoRepositoryImpl.findByName(request.produto())
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado")
         ));
     }
-
-
-//    private void validarLimites(ProdutoEntity p, BigDecimal valor, int prazo) {
-//        if (p.getMinValor().compareTo(valor) > 0)
-//            throw new RuntimeException("Valor abaixo do mínimo permitido");
-//
-//        if (p.getMaxValor() != null && p.getMaxValor().compareTo(valor) < 0)
-//            throw new RuntimeException("Valor acima do máximo permitido");
-//
-//        if (prazo < p.getMinPrazo())
-//            throw new RuntimeException("Prazo inferior ao mínimo");
-//
-//        if (p.getMaxPrazo() != null && prazo > p.getMaxPrazo())
-//            throw new RuntimeException("Prazo superior ao máximo");
-//    }
 
     private BigDecimal converterTaxaAnualParaMensal(BigDecimal taxaAnual) {
         return BigDecimal.valueOf(Math.pow(1 + taxaAnual.doubleValue(), 1.0 / 12.0) - 1)

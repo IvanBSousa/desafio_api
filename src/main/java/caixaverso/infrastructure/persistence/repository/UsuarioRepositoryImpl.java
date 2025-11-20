@@ -12,6 +12,6 @@ public class UsuarioRepositoryImpl implements PanacheRepository<UsuarioEntity>, 
 
     @Override
     public Optional<UsuarioEntity> findByUsername(String username) {
-        return find("username", username).firstResultOptional();
+        return find("usuario", username).firstResultOptional();
     }
 }
