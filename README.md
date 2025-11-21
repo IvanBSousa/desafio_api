@@ -1,8 +1,16 @@
 # desafio_api
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+## Projeto desenvolvido por Ivan de Bastos Sousa para PSI CaixaVerso
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+### Usuário e senha para acesso ao sistema
+
+- Usuário: admin
+- Senha: admin
+
+
+- Usuário: user
+- Senha: user
+
 
 ## Running the application in dev mode
 

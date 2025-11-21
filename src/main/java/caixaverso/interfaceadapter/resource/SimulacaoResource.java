@@ -3,6 +3,7 @@ package caixaverso.interfaceadapter.resource;
 import caixaverso.application.usecase.SimulacaoUseCase;
 import caixaverso.application.dto.*;
 import io.quarkus.security.Authenticated;
+import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.persistence.Table;
@@ -29,7 +30,7 @@ public class SimulacaoResource {
 
     @POST
     @Path("/simular-investimento")
-    @RolesAllowed({"Admin", "User"})
+    @PermitAll
     @Transactional
     public Response simular(@Valid SimulacaoRequestDTO request) {
         SimulacaoResponseDTO response = simulacaoUseCase.simular(request);
